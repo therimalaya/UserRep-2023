@@ -1,0 +1,523 @@
+---
+title: "Melanoma tumour thickness in Norway"
+subtitle: "An analysis of survival trend,<br>1983–2019"
+author: "Raju Rimal"
+date: "13 June, 2023"
+institute: "Department of Biostatistics<br>University of Oslo"
+code-overflow: scroll
+date-format: "DD MMMM YYYY"
+bibliography: References.bib
+citations-hover: true
+knitr:
+  opts_chunk: 
+    collapse: true
+    comment: "#>" 
+execute: 
+  echo: false
+  warning: false
+format: 
+  revealjs:
+    transition: slide
+    background-transition: concave
+    template-partials:
+      - title-slide.html
+    theme: [default, custom.scss]
+    logo: Images/Logos/UiO-Logo.png
+    title-slide-attributes:
+      data-background-color: "#FCFCFC"
+      data-background-image: Images/melo.svg
+      data-background-opacity: "0.75"
+      data-background-size: auto 80%
+      data-background-position: 90% center
+editor_options: 
+  chunk_output_type: console
+nocite: "@*"
+---
+
+```{r}
+#| include: false
+
+library(data.table)
+library(ggplot2)
+library(stringr)
+library(purrr)
+library(ggh4x)
+library(gt)
+
+ggplot2::theme_set(ggthemes::theme_few())
+theme_update(panel.grid = element_line(color = "#f0f0f0"))
+
+# Color schemes (uchicago):
+#   Default: default_uchicago:
+#     #800000 #767676 #FFA319 #8A9045 #155F83 
+#     #C16622 #8F3931 #58593F #350E20
+#   Dark: dark_uchicago:
+#     #800000 #767676 #CC8214 #616530 #0F425C 
+#     #9A5324 #642822 #3E3E23 #350E20 
+#   Light: light_uchicago:
+#     #800000 #D6D6CE #FFB547 #ADB17D #5B8FA8 
+#     #D49464 #B1746F #8A8B79 #725663
+#   White:
+#     #FFFAFA #FCFCFC #FFFDFD #FCFFE0 #F9FCFF 
+#     #FFFCFB #FFFAFA #FCFDE5 #FFF8FA
+```
+
+## I alone cannot change the world, but I can cast a stone across the waters to create many ripples. {.center .middle visibilty="hidden"}
+
+::: {style="text-align:right; border-right: 2px solid #0F425C; padding-right: 15px; margin-top: 50px; color: #5B8FA8FF;"}
+Mother Teresa (1910--1997)
+:::
+
+::: {style="text-align:right; border-right: 2px solid gray; padding-right: 15px; font-size: 80%; color: #767676; display: block;"}
+Social worker, Nurse
+:::
+
+
+## Research Interest {.ai .dark .columns background-image="Images/AI/Melanoma-Cell-1.jpg" background-position="right" background-size="auto 100%" visibilty="hidden"}
+
+::: {.column width="50%"}
+::: {.callout-important appearance="simple" icon="false"}
+-   Cutaneous melanoma (CM) is the _most aggressive_ and _lethal_ form of skin cancer.
+:::
+
+::: {.callout-warning appearance="simple" icon="false"}
+-   Norway is ranked _fifth in incidence_ and _second in mortality_ worldwide.
+-   More people _diagnosis with thinner tumour_ and more people _die from thicker tumour_.
+:::
+
+::: {.callout-tip appearance="simple" icon="false"}
+-   It's _highly curable_ if caught early.
+-   _Important role of tumour thickness_ in prognosis.
+:::
+:::
+
+::: {.column width="50%"}
+:::
+
+## Outline {.ai .dark .columns background-image="Images/AI/Steps-Spiral.jpg" background-position="right" background-size="auto 100%"}
+
+::: {.column width="50%"}
+-   [Background](#section-1)
+
+-   [Data and Methods](#section-2)
+
+-   [Results](#section-3)
+
+-   [Outlook and Summary](#section-4)
+:::
+
+::: {.column width="50%"}
+:::
+
+# Research Objective  {.center .middle style="color: #0F425C;"}
+
+To examine ***melanoma survival*** and ***trend*** by tumour thickness in overall and in important subgroups such as *sex* and *age* in a unique nationwide case series over a 35-year time period.
+
+# Background {.center .middle background-color="#767676FF"}
+
+## Data from Cancer Registry of Norway (CRN)
+
+::: {.columns .grid}
+::: {.column style="font-size: 120%;"}
+::: {.callout-note icon="false" appearance="minimal"}
+*Histologically verified* data
+:::
+::: {.callout-note icon="false" appearance="minimal"}
+*Tumour thickness* recorded since 1980 are *now digitized*
+:::
+::: {.callout-note icon="false" appearance="minimal"}
+*Melanoma registry* established in 2008 under CRN provides the data
+:::
+::: {.callout-tip icon="false" appearance="minimal"}
+Here we will use data from *1983 to 2019*
+:::
+:::
+
+::: {.column}
+![](Images/Logos/CRN-Logo-NoText.svg){fig-align="right"}
+:::
+:::
+
+## Melanoma and tumour thickness 
+
+### T-categories
+
+![Source: `https://www.cancerresearchuk.org/about-cancer/melanoma/stages-types/tnm-staging`](Images/T-Stages.svg){width="100%" fig-align="center"}
+
+<!--
+::: {.absolute .fragment .fade-in-then-out .fade-out data-id="box1" style="border: 2px solid #800000; width: 130px; height: 90px; margin: 10px; background: #80000011; border-radius: 10%;" top="18%" left="30%"}
+:::
+
+::: {.absolute .fragment .fade-right .fade-in-then-out data-id="box1" style="border: 2px solid #800000; width: 130px; height: 90px; margin: 10px; background: #80000022; border-radius: 10%;" top="18%" left="42%"}
+:::
+
+::: {.absolute .fragment .fade-right .fade-in-then-out data-id="box1" style="border: 2px solid #800000; width: 130px; height: 90px; margin: 10px; background: #80000033; border-radius: 10%;" top="18%" left="57%"}
+:::
+
+::: {.absolute .fragment .fade-right .fade-in-then-out data-id="box1" style="border: 2px solid #800000; width: 130px; height: 90px; margin: 10px; background: #80000044; border-radius: 10%;" top="18%" left="70%"}
+:::
+-->
+
+#  {.center .middle background-color="#155F83FF"}
+
+::: {.r-fit-text}
+Data & Methods
+:::
+
+## Basic characteristics of data {background-transition="none" transition="none" background-image="Images/Characteristics-Age.PNG" background-size="90% auto" background-position="center 80%"}
+
+::: {.callout-note icon="false"}
+### Age at diagnosis
+
+Age at diagnosis has increased in the recent period than earlier.
+:::
+
+## Basic characteristics of data {background-transition="none" transition="none" background-image="Images/Characteristics-Thickness.PNG" background-size="90% auto" background-position="center 80%"}
+
+::: {.callout-note icon="false"}
+### Tumour thickness
+
+The thickness of tumour at diagnosis has decreased in the recent period than earlier.
+:::
+
+
+## Methods {.top}
+
+```{r}
+methods <- data.table(
+  "Method" = c(
+    "[Relative survival](#relative-survival)", 
+    "[Cumulative incidence](#cumulative-incidence)",
+    "[Conditional relative survival](#conditional-relative-survival)",
+    "[Trend in relative survival](#relative-survival-trend)"
+  ),
+  "Description" = c(
+    paste(
+      "A way of _comparing the survival_ of people who have",
+      "melanoma with those who don't, over a certain period of time."
+    ),
+    paste(
+      "The proportion of a population at risk that develops melanoma",
+      "over a specified time period. The _percentage of individuals",
+      "died from melanoma_ over a specific time period."
+    ),
+    paste(
+      "Relative survival of a melanoma patients surviving a certain",
+      "number of year (y) _given that the patients has already",
+      "survived_ a fixed number of years (x) since diagnosis."
+    ),
+    paste(
+      "_Changes in relative survival_ over a certain period."
+    )
+  )
+)
+print_gt <- function(data) {
+data %>% 
+  gt::gt() %>%
+  gt::tab_style(
+    locations = cells_body(columns = 1, rows = everything()),
+    style = cell_text(weight = "bold", align = "right")
+  ) %>%
+  gt::tab_style(
+    locations = cells_column_labels(columns = 1),
+    style = cell_text(align = "right")
+  ) %>%
+  gt::tab_options(
+    table.font.size = "1.5rem",
+    column_labels.font.weight = "bold",
+    table.width = "100%"
+  ) %>%
+  gt::cols_width(Method ~ "250px") %>%
+  gt::fmt_markdown(columns = everything()) %>%
+  gt::opt_css(css = "
+    .gt_table .gt_row {
+      vertical-align: top!important;
+    }
+    .gt_table tr > :is(th, td) {
+      line-height: 2rem;
+    }
+    .gt_table tr > :is(th, td):nth-child(2) {
+      padding-left: 50px!important;
+    }
+    .gt_table tr > td:nth-child(2) > .gt_from_md > p {
+      line-height: 2.2rem;
+    }
+  ")
+}
+```
+
+::: {.r-stack}
+```{r}
+print_gt(methods[1, ])
+```
+
+::: fragment
+```{r}
+print_gt(methods[1:2, ])
+```
+:::
+
+::: fragment
+```{r}
+print_gt(methods[1:3, ])
+```
+:::
+
+::: fragment
+```{r}
+print_gt(methods[1:4, ])
+```
+:::
+
+:::
+
+#  {.center .middle background-color="#3E3E23"}
+
+::: r-fit-text
+Results
+:::
+
+## Relative survival {.smaller}
+
+::: columns
+::: {.column width="32%"}
+
+::: {.callout-note appearance="simple" icon="false"}
+Patients with thinner melanoma (T1) have similar survival as general population.
+:::
+
+::: {.callout-note appearance="simple" icon="false"}
+The 5-year survival for patients with T4 melanoma is less than 60%
+compared to general population.
+:::
+
+::: {.callout-note appearance="simple" icon="false"}
+Men have lower survival compared to women in all T-categories.
+:::
+
+::: {.callout-note appearance="simple" icon="false"}
+Clear difference in survival by T-categories reflects the importants
+of tumour thickness in prognosis.
+:::
+
+:::
+::: {.column width="68%"}
+![](plots/surv-by-sex-tstage-ci.svg){width="100%"}
+:::
+:::
+
+## Relative survival (before & after 2000)
+
+::: columns
+::: {.column width="32%"}
+
+
+::: {.callout-note appearance="simple" icon="false"}
+Changes in long-term survival of T1 and T3 melanoma diagnosed from 2000 is larger in men than in women compared to those diagnosed before 2000.
+:::
+
+::: {.callout-note appearance="simple" icon="false"}
+In T4 melanoma, only small change is observed in men.
+:::
+
+:::
+::: {.column width="68%"}
+![](plots/surv-by-sex-tstage.svg){width="100%"}
+:::
+:::
+
+
+## Cumulative incidence {.smaller}
+
+::: columns
+::: {.column width="32%"}
+
+::: {.callout-note appearance="simple" icon="false"}
+In melanoma patients with T1 tumour, the proportion of dying from melanoma 
+is similar to dying from other cause.
+:::
+
+::: {.callout-note appearance="simple" icon="false"}
+The difference in the proportion of melanoma patients dying from melanoma compared
+to dying from other disease grows as tumour thickness increases.
+:::
+
+::: {.callout-note appearance="simple" icon="false"}
+Men have poor prognosis compared to women (high cumulative incidence).
+:::
+
+:::
+::: {.column width="68%"}
+![](plots/cuminc-by-sex-tstage.svg){width="100%"}
+:::
+:::
+
+## Is this the effect of treatment?
+
+::: columns
+
+::: {.column width="40%"}
+
+::: {.callout-tip appearance="simple" icon="false"}
+Comparing cumulative incidence within distant metastasis cases diagnosed between 2008--2013 and 2014--2019, we observed a drop in melanoma specific deaths in the later period.
+:::
+
+::: {.callout-note appearance="simple" icon="false"}
+Around year 2014, new treatment immunotherapy was introduced in stage IV melanoma.
+:::
+
+:::
+::: {.column width="60%"}
+![](plots/cuminc-treatment-effect.svg){width="100%"}
+:::
+:::
+
+## Conditional relative survival {.smaller}
+
+::: columns
+::: {.column width="32%"}
+
+::: {.callout-info appearance="simple" icon="false"}
+The dashed line represents the 5 and 10-year relative survival after the patients survived for 0, 1, 2, 3, ... years (scale in grey color). 
+:::
+
+::: {.callout-note appearance="simple" icon="false"}
+We see that in all T-categories, both 5-year and 10-year relative survival condition on surviving certain number of years starts to becomes similar when the conditional year increases.
+:::
+
+::: {.callout-note appearance="simple" icon="false"}
+For example, two patients diagnosed with T1 and T3 melanoma respectively have similar 5-year relative survival after surviving from 15 years.
+:::
+
+:::
+::: {.column width="68%"}
+![](plots/cond-surv-by-sex-tstage-crn.svg){width="100%"}
+:::
+:::
+
+## Relative survival trend {.smaller}
+
+::: columns
+::: {.column width="32%"}
+
+::: {.callout-info appearance="simple" icon="false"}
+The smooth tail in the trend is because of different (hybrid) method used to calculate the relative survival using more recent data. Longer the follow-up loger the smooth tail.
+:::
+
+::: {.fragment fragment-index="1"}
+::: {.callout-note appearance="simple" icon="false"}
+The 5-year, 10-year and 15-year relative survival in all T-categories has stable or slight increasing trend. 
+:::
+
+::: {.callout-note appearance="simple" icon="false"}
+In the case of thicker melanoma, women have higher increasing trend in T4 melanoma and men have in T3. This pattern is observed in 5-year, 10-year and 15-year follow-up.
+:::
+:::
+
+:::
+::: {.column width="68%"}
+::: {.r-stack}
+![](plots/trend-by-sex-tstage.svg){width="100%"}
+
+![](plots/trend-by-sex-tstage-llm.svg){.fragment .current-visible fragment-index="1" width="100%"}
+:::
+:::
+:::
+
+#  {.center .middle background-color="#642822"}
+
+::: r-fit-text
+Wrap-up
+:::
+
+## Outlook {background-image="Images/Drammen-Stasjon.jpg" background-position="right" background-size="auto 100%"}
+
+::: columns
+::: {.column width="50%"}
+::: {.callout-tip style="min-width: 100%;" icon="false"}
+## Upcoming: Incidence and trend
+Increasing T1 incidence with plateau around before 2005. Thicker cases are more pronounced in older men.
+:::
+
+
+::: {.callout-note style="min-width: 100%;" icon="false"}
+## In progress: Survival and trend
+Men have lower survival mainly in thicker cases than women. In thicker cases, more patients die from melnaoma than other cause. 
+:::
+
+::: {.callout-warning style="min-width: 100%;" icon="false"}
+## Planned: Cut-point analysis
+The _cut-points_ are important criteria for _risk assessment_, _diagnosis_ and _follow-up_
+:::
+
+:::
+:::
+
+## Summary {.ai .dark background-image="Images/AI/Overview-Lake-Boat.jpg" background-position="right" background-size="auto 100%"}
+
+::: columns
+::: {.column width="50%" style="font-size: 85%;"}
+::: {.callout-note appearance="simple" icon="false"}
+-   Despite _stable melanoma mortality_ was seen in cancer reports in Norway for last few years, Norway _ranks second in mortality_ worldwide.
+:::
+::: {.callout-important appearance="simple" icon="false"}
+-   Older men diagnosed more with _thicker melanoma_ and has _higher mortality_
+:::
+
+::: {.callout-tip appearance="simple" icon="false"}
+-   Awareness focused on *elderly males* may be effective for *early detection*.
+-   _Risk stratification_ and _targeted_ screening
+:::
+:::
+
+::: {.column width="50%"}
+:::
+:::
+
+# {visibility="hidden"}
+
+##  {#logo-profile .center .smaller}
+
+::: columns
+::: {.column width="30%"}
+### Collaborators
+
+::: collab-logo
+![](Images/Logos/UiO-Logo.png){#uio width="100%"} ![](Images/Logos/CRN-Logo.svg){#crn width="100%"} ![](Images/Logos/QIMR-Logo.png){#qimr width="100%"} ![](Images/Logos/IARC-Logo.png){#iarc width="100%"} ![](Images/Logos/OCBE-Logo.png){#ocbe width="100%"} ![](Images/Logos/OUS-Logo.png){#ous width="100%"} ![](Images/Logos/RNF-Logo.svg){#rnf width="100%"}
+:::
+:::
+
+::: {.column width="70%"}
+### Coauthors
+
+::: profile-container
+```{r}
+#| results: asis
+imgs <- dir("Images/Profile", pattern = "^\\d.*profile.*\\.png", full.names = TRUE)
+names(imgs) <- gsub(".*\\/\\d{2}-profile-(.*)\\.png", "\\1", imgs) %>% 
+    stringr::str_replace_all("-", " ") %>% 
+    stringr::str_to_title()
+iwalk(imgs, function(img, name) {
+  glue::glue(
+    '::: {{.profile-card}}',
+    '![]({img}){{width="100%"}}',
+    '<p>{name}</p>',
+    ':::',
+    .sep = "\n"
+  ) %>% print()
+})
+```
+:::
+
+::: {style="text-align:center; width:100%; color:firebrick;"}
+Funded by: The Research Council of Norway.
+:::
+:::
+:::
+
+##  {background-image="Images/Thank-You.png" background-size="auto 90%"}
+
+## References {.smaller}
+
+::: {#refs}
+:::
