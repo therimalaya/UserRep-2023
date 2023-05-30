@@ -30,7 +30,7 @@ $link-color: #155F83;
 
 /*-- scss:rules --*/
 .title-slide.level1 {
-  &#background {
+  &.huge {
     h1 {
       font-size: 350%;
     }
@@ -100,6 +100,7 @@ section.smaller table.gt_table {
     display: grid;
     list-style: none;
     margin-left: 10px;
+    align-content: end;
     
     li {
       display: inline-grid;
@@ -113,6 +114,10 @@ section.smaller table.gt_table {
       }
     }
   }
+}
+
+#aim h1 {
+  color: var(--title-color);
 }
 
 section:not(.smaller) {
@@ -230,6 +235,10 @@ section:not(.center) .center {
 
     &.center {
       text-align: center;
+    }
+
+    h2 {
+      align-self: start;
     }
   }
 

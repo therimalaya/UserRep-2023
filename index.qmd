@@ -17,8 +17,8 @@ execute:
   warning: false
 format: 
   revealjs:
-    transition: slide
-    background-transition: concave
+    transition: none
+    background-transition: none
     template-partials:
       - title-slide.html
     theme: [default, custom.scss]
@@ -62,38 +62,6 @@ theme_update(panel.grid = element_line(color = "#f0f0f0"))
 #     #FFFCFB #FFFAFA #FCFDE5 #FFF8FA
 ```
 
-## I alone cannot change the world, but I can cast a stone across the waters to create many ripples. {.center .middle visibilty="hidden"}
-
-::: {style="text-align:right; border-right: 2px solid #0F425C; padding-right: 15px; margin-top: 50px; color: #5B8FA8FF;"}
-Mother Teresa (1910--1997)
-:::
-
-::: {style="text-align:right; border-right: 2px solid gray; padding-right: 15px; font-size: 80%; color: #767676; display: block;"}
-Social worker, Nurse
-:::
-
-
-## Research Interest {.ai .dark .columns background-image="Images/AI/Melanoma-Cell-1.jpg" background-position="right" background-size="auto 100%" visibilty="hidden"}
-
-::: {.column width="50%"}
-::: {.callout-important appearance="simple" icon="false"}
--   Cutaneous melanoma (CM) is the _most aggressive_ and _lethal_ form of skin cancer.
-:::
-
-::: {.callout-warning appearance="simple" icon="false"}
--   Norway is ranked _fifth in incidence_ and _second in mortality_ worldwide.
--   More people _diagnosis with thinner tumour_ and more people _die from thicker tumour_.
-:::
-
-::: {.callout-tip appearance="simple" icon="false"}
--   It's _highly curable_ if caught early.
--   _Important role of tumour thickness_ in prognosis.
-:::
-:::
-
-::: {.column width="50%"}
-:::
-
 ## Outline {.ai .dark .columns background-image="Images/AI/Steps-Spiral.jpg" background-position="right" background-size="auto 100%"}
 
 ::: {.column width="50%"}
@@ -109,13 +77,13 @@ Social worker, Nurse
 ::: {.column width="50%"}
 :::
 
-# Research Objective  {.center .middle style="color: #0F425C;"}
+# Research Objective  {.center .middle #aim}
 
 To examine ***melanoma survival*** and ***trend*** by tumour thickness in overall and in important subgroups such as *sex* and *age* in a unique nationwide case series over a 35-year time period.
 
-# Background {.center .middle background-color="#767676FF"}
+# Background {.center .middle .huge background-color="#767676FF"}
 
-## Data from Cancer Registry of Norway (CRN)
+## Data from Cancer Registry of Norway (CRN) {.middle}
 
 ::: {.columns .grid}
 ::: {.column style="font-size: 120%;"}
@@ -158,18 +126,14 @@ Here we will use data from *1983 to 2019*
 :::
 -->
 
-#  {.center .middle background-color="#155F83FF"}
-
-::: {.r-fit-text}
-Data & Methods
-:::
+# Case series {.center .middle .huge background-color="#155F83FF"}
 
 ## Basic characteristics of data {background-transition="none" transition="none" background-image="Images/Characteristics-Age.PNG" background-size="90% auto" background-position="center 80%"}
 
 ::: {.callout-note icon="false"}
 ### Age at diagnosis
 
-Age at diagnosis has increased in the recent period than earlier.
+Age at diagnosis has increased in the recent period (2008--2019).
 :::
 
 ## Basic characteristics of data {background-transition="none" transition="none" background-image="Images/Characteristics-Thickness.PNG" background-size="90% auto" background-position="center 80%"}
@@ -177,11 +141,10 @@ Age at diagnosis has increased in the recent period than earlier.
 ::: {.callout-note icon="false"}
 ### Tumour thickness
 
-The thickness of tumour at diagnosis has decreased in the recent period than earlier.
+The thickness of tumour at diagnosis has decreased in the recent period (2008--2019).
 :::
 
-
-## Methods {.top}
+# Results and Methods  {.center .middle .huge background-color="#3E3E23"}
 
 ```{r}
 methods <- data.table(
@@ -197,9 +160,8 @@ methods <- data.table(
       "melanoma with those who don't, over a certain period of time."
     ),
     paste(
-      "The proportion of a population at risk that develops melanoma",
-      "over a specified time period. The _percentage of individuals",
-      "died from melanoma_ over a specific time period."
+      "The proportion (percentage) of a population died because of melanoma",
+      "over a specified time period."
     ),
     paste(
       "Relative survival of a melanoma patients surviving a certain",
@@ -246,41 +208,16 @@ data %>%
 }
 ```
 
-::: {.r-stack}
-```{r}
-print_gt(methods[1, ])
-```
+# Relative Survival {.center .middle background-color="#FCFDE5"}
 
-::: fragment
-```{r}
-print_gt(methods[1:2, ])
-```
-:::
+A way of _comparing the survival_ of people who have melanoma with those who don't, over a certain period of time.
 
-::: fragment
-```{r}
-print_gt(methods[1:3, ])
-```
-:::
+## Relative survival {.smaller .middle}
 
-::: fragment
-```{r}
-print_gt(methods[1:4, ])
-```
-:::
+::: {.columns .grid style="grid-template-columns: 1fr 2fr; align-items: end;"}
+::: column
 
-:::
-
-#  {.center .middle background-color="#3E3E23"}
-
-::: r-fit-text
-Results
-:::
-
-## Relative survival {.smaller}
-
-::: columns
-::: {.column width="32%"}
+**By sex and T category**
 
 ::: {.callout-note appearance="simple" icon="false"}
 Patients with thinner melanoma (T1) have similar survival as general population.
@@ -301,16 +238,18 @@ of tumour thickness in prognosis.
 :::
 
 :::
-::: {.column width="68%"}
+::: column
 ![](plots/surv-by-sex-tstage-ci.svg){width="100%"}
 :::
 :::
 
-## Relative survival (before & after 2000)
+## Relative survival {.smaller .middle}
 
-::: columns
-::: {.column width="32%"}
+::: {.columns .grid style="grid-template-columns: 1fr 2fr; align-items: end;"}
+::: column
 
+**By sex and T category**
+**Before and After 2000**
 
 ::: {.callout-note appearance="simple" icon="false"}
 Changes in long-term survival of T1 and T3 melanoma diagnosed from 2000 is larger in men than in women compared to those diagnosed before 2000.
@@ -321,16 +260,21 @@ In T4 melanoma, only small change is observed in men.
 :::
 
 :::
-::: {.column width="68%"}
+::: column
 ![](plots/surv-by-sex-tstage.svg){width="100%"}
 :::
 :::
 
+# Cumulative Mortality {.center .middle background-color="#FCFDE5"}
 
-## Cumulative incidence {.smaller}
+The proportion (percentage) of a population died because of melanoma over a specified time period.
 
-::: columns
-::: {.column width="32%"}
+## Cumulative Mortality {.smaller .middle}
+
+::: {.columns .grid style="grid-template-columns: 1fr 2fr; align-items: end;"}
+::: column
+
+**By sex and T category**
 
 ::: {.callout-note appearance="simple" icon="false"}
 In melanoma patients with T1 tumour, the proportion of dying from melanoma 
@@ -347,16 +291,18 @@ Men have poor prognosis compared to women (high cumulative incidence).
 :::
 
 :::
-::: {.column width="68%"}
+::: column
 ![](plots/cuminc-by-sex-tstage.svg){width="100%"}
 :::
 :::
 
-## Is this the effect of treatment?
+## Is this the effect of treatment? {.smaller .middle}
 
-::: columns
+::: {.columns .grid style="grid-template-columns: 1fr 2fr; align-items: end;"}
 
-::: {.column width="40%"}
+::: column 
+
+**Melanoma with distant metastasis**
 
 ::: {.callout-tip appearance="simple" icon="false"}
 Comparing cumulative incidence within distant metastasis cases diagnosed between 2008--2013 and 2014--2019, we observed a drop in melanoma specific deaths in the later period.
@@ -367,15 +313,20 @@ Around year 2014, new treatment immunotherapy was introduced in stage IV melanom
 :::
 
 :::
-::: {.column width="60%"}
+::: column
 ![](plots/cuminc-treatment-effect.svg){width="100%"}
 :::
 :::
 
-## Conditional relative survival {.smaller}
+# Conditional Relative Survival {.center .middle background-color="#FCFDE5"}
 
-::: columns
-::: {.column width="32%"}
+Relative survival of a melanoma patients surviving a certain number of year (y) _given that the patients has already survived_ a fixed number of years (x) since diagnosis.
+
+## {.smaller .middle}
+
+::: {.columns .grid style="grid-template-columns: 1fr 2fr; align-items: end;"}
+::: column
+### Conditional 5-year Relative Survival
 
 ::: {.callout-info appearance="simple" icon="false"}
 The dashed line represents the 5 and 10-year relative survival after the patients survived for 0, 1, 2, 3, ... years (scale in grey color). 
@@ -390,68 +341,39 @@ For example, two patients diagnosed with T1 and T3 melanoma respectively have si
 :::
 
 :::
-::: {.column width="68%"}
+::: column
 ![](plots/cond-surv-by-sex-tstage-crn.svg){width="100%"}
 :::
 :::
 
-## Relative survival trend {.smaller}
+# Trend in relative survival {.center .middle background-color="#FCFDE5"}
 
-::: columns
-::: {.column width="32%"}
+Changes in relative survial over time.
 
-::: {.callout-info appearance="simple" icon="false"}
-The smooth tail in the trend is because of different (hybrid) method used to calculate the relative survival using more recent data. Longer the follow-up loger the smooth tail.
-:::
+## Relative turvival Trend {.smaller .middle}
 
-::: {.fragment fragment-index="1"}
+::: {.columns .grid style="grid-template-columns: 1fr 2fr; align-items: end;"}
+::: column
+
+**Relative survival**
+
+**10-years follow-up**
+
 ::: {.callout-note appearance="simple" icon="false"}
-The 5-year, 10-year and 15-year relative survival in all T-categories has stable or slight increasing trend. 
+The 10-year relative survival in all T-categories has stable or slight increasing trend. 
 :::
 
 ::: {.callout-note appearance="simple" icon="false"}
-In the case of thicker melanoma, women have higher increasing trend in T4 melanoma and men have in T3. This pattern is observed in 5-year, 10-year and 15-year follow-up.
+In the case of thicker melanoma, women have higher increasing trend in T4 melanoma and men have in T3.
 :::
 :::
 
-:::
-::: {.column width="68%"}
-::: {.r-stack}
-![](plots/trend-by-sex-tstage.svg){width="100%"}
-
-![](plots/trend-by-sex-tstage-llm.svg){.fragment .current-visible fragment-index="1" width="100%"}
-:::
+::: column
+![](plots/trend-by-sex-tstage-llm.svg){width="100%"}
 :::
 :::
 
-#  {.center .middle background-color="#642822"}
-
-::: r-fit-text
-Wrap-up
-:::
-
-## Outlook {background-image="Images/Drammen-Stasjon.jpg" background-position="right" background-size="auto 100%"}
-
-::: columns
-::: {.column width="50%"}
-::: {.callout-tip style="min-width: 100%;" icon="false"}
-## Upcoming: Incidence and trend
-Increasing T1 incidence with plateau around before 2005. Thicker cases are more pronounced in older men.
-:::
-
-
-::: {.callout-note style="min-width: 100%;" icon="false"}
-## In progress: Survival and trend
-Men have lower survival mainly in thicker cases than women. In thicker cases, more patients die from melnaoma than other cause. 
-:::
-
-::: {.callout-warning style="min-width: 100%;" icon="false"}
-## Planned: Cut-point analysis
-The _cut-points_ are important criteria for _risk assessment_, _diagnosis_ and _follow-up_
-:::
-
-:::
-:::
+# Wrap-up {.center .middle .huge background-color="#642822"}
 
 ## Summary {.ai .dark background-image="Images/AI/Overview-Lake-Boat.jpg" background-position="right" background-size="auto 100%"}
 
