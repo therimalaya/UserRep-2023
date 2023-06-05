@@ -8,6 +8,7 @@ code-overflow: scroll
 date-format: "DD MMMM YYYY"
 bibliography: References.bib
 citations-hover: true
+preview-links: true
 knitr:
   opts_chunk: 
     collapse: true
@@ -65,13 +66,13 @@ theme_update(panel.grid = element_line(color = "#f0f0f0"))
 ## Outline {.ai .dark .columns background-image="Images/AI/Steps-Spiral.jpg" background-position="right" background-size="auto 100%"}
 
 ::: {.column width="50%"}
--   [Background](#section-1)
+-   [Background](#background)
 
--   [Data and Methods](#section-2)
+-   [Case series](#case-series)
 
--   [Results](#section-3)
+-   [Methods and Results](#method-and-results)
 
--   [Outlook and Summary](#section-4)
+-   [Summary](#summary)
 :::
 
 ::: {.column width="50%"}
@@ -110,7 +111,7 @@ Here we will use data from *1983 to 2019*
 
 ### T-categories
 
-![Source: `https://www.cancerresearchuk.org/about-cancer/melanoma/stages-types/tnm-staging`](Images/T-Stages.svg){width="100%" fig-align="center"}
+![Source: [`https://www.cancerresearchuk.org/about-cancer/melanoma/stages-types/tnm-staging`](https://www.cancerresearchuk.org/about-cancer/melanoma/stages-types/tnm-staging)](Images/T-Stages.svg){width="100%" fig-align="center"}
 
 <!--
 ::: {.absolute .fragment .fade-in-then-out .fade-out data-id="box1" style="border: 2px solid #800000; width: 130px; height: 90px; margin: 10px; background: #80000011; border-radius: 10%;" top="18%" left="30%"}
@@ -144,73 +145,13 @@ Age at diagnosis has increased in the recent period (2008--2019).
 The thickness of tumour at diagnosis has decreased in the recent period (2008--2019).
 :::
 
-# Results and Methods  {.center .middle .huge background-color="#3E3E23"}
-
-```{r}
-methods <- data.table(
-  "Method" = c(
-    "[Relative survival](#relative-survival)", 
-    "[Cumulative incidence](#cumulative-incidence)",
-    "[Conditional relative survival](#conditional-relative-survival)",
-    "[Trend in relative survival](#relative-survival-trend)"
-  ),
-  "Description" = c(
-    paste(
-      "A way of _comparing the survival_ of people who have",
-      "melanoma with those who don't, over a certain period of time."
-    ),
-    paste(
-      "The proportion (percentage) of a population died because of melanoma",
-      "over a specified time period."
-    ),
-    paste(
-      "Relative survival of a melanoma patients surviving a certain",
-      "number of year (y) _given that the patients has already",
-      "survived_ a fixed number of years (x) since diagnosis."
-    ),
-    paste(
-      "_Changes in relative survival_ over a certain period."
-    )
-  )
-)
-print_gt <- function(data) {
-data %>% 
-  gt::gt() %>%
-  gt::tab_style(
-    locations = cells_body(columns = 1, rows = everything()),
-    style = cell_text(weight = "bold", align = "right")
-  ) %>%
-  gt::tab_style(
-    locations = cells_column_labels(columns = 1),
-    style = cell_text(align = "right")
-  ) %>%
-  gt::tab_options(
-    table.font.size = "1.5rem",
-    column_labels.font.weight = "bold",
-    table.width = "100%"
-  ) %>%
-  gt::cols_width(Method ~ "250px") %>%
-  gt::fmt_markdown(columns = everything()) %>%
-  gt::opt_css(css = "
-    .gt_table .gt_row {
-      vertical-align: top!important;
-    }
-    .gt_table tr > :is(th, td) {
-      line-height: 2rem;
-    }
-    .gt_table tr > :is(th, td):nth-child(2) {
-      padding-left: 50px!important;
-    }
-    .gt_table tr > td:nth-child(2) > .gt_from_md > p {
-      line-height: 2.2rem;
-    }
-  ")
-}
-```
+# Methods and Results  {.center .middle .huge background-color="#3E3E23"}
 
 # Relative Survival {.center .middle background-color="#FCFDE5"}
 
-A way of _comparing the survival_ of people who have melanoma with those who don't, over a certain period of time.
+_Relative survival_[^1] **compares the survival of people with melanoma with those who don't** over a certain period of time.
+
+[^1]: Relative survival is the _ratio of "proportion of observed survival" to the "proportion of expected survival"_ in a cohort of cancer patients.
 
 ## Relative survival {.smaller .middle}
 
@@ -265,9 +206,12 @@ In T4 melanoma, only small change is observed in men.
 :::
 :::
 
-# Cumulative Mortality {.center .middle background-color="#FCFDE5"}
+# Cumulative mortality {.center .middle background-color="#FCFDE5"}
 
-The proportion (percentage) of a population died because of melanoma over a specified time period.
+The cumulative mortality [^1] up to a given time is the probability of an individual dying by that time[^2].
+
+[^1]: Cumulative mortality (cumulative incidence of death) refers to the event of death due to melanoma.
+[^2]: Total cases can be divided into proportion of alive, death due to other causes and death due to melanoma.
 
 ## Cumulative Mortality {.smaller .middle}
 
@@ -277,19 +221,20 @@ The proportion (percentage) of a population died because of melanoma over a spec
 **By sex and T category**
 
 ::: {.callout-note appearance="simple" icon="false"}
-In melanoma patients with T1 tumour, the proportion of dying from melanoma 
-is similar to dying from other cause.
+The probability of other cause of death does not change drastically as the probability of melanoma death between T categories.
 :::
 
 ::: {.callout-note appearance="simple" icon="false"}
-The difference in the proportion of melanoma patients dying from melanoma compared
-to dying from other disease grows as tumour thickness increases.
+The proportion of melanoma deaths grows as tumour thickness increases.
 :::
 
 ::: {.callout-note appearance="simple" icon="false"}
 Men have poor prognosis compared to women (high cumulative incidence).
 :::
 
+::: {.callout-tip appearance="minimal" icon="false"}
+Younger population has more thinner and older has more thicker cases. In longer follow-up, we see an increasing probability in both melanoma an other cause of death.
+:::
 :::
 ::: column
 ![](plots/cuminc-by-sex-tstage.svg){width="100%"}
@@ -317,6 +262,37 @@ Around year 2014, new treatment immunotherapy was introduced in stage IV melanom
 ![](plots/cuminc-treatment-effect.svg){width="100%"}
 :::
 :::
+
+## Is this the effect of treatment? {.smaller .middle}
+
+::: {.columns .grid style="grid-template-columns: 1fr 2fr; align-items: end;"}
+
+::: column 
+
+**Melanoma with distant metastasis**
+
+::: {.callout-tip appearance="simple" icon="false"}
+No interaction between sex and period of diagnosis
+:::
+
+::: {.callout-note appearance="simple" icon="false"}
+Based on model without interaction:
+
+  - Male have higher mortality than female
+  - Period 2014-2016 has lower mortality than the period 2011-2013
+:::
+
+
+::: {.callout-note appearance="simple" icon="false"}
+Around year 2014, new treatment immunotherapy was introduced in stage IV melanoma.
+:::
+
+:::
+::: column
+![](plots/cox-model-treatment.svg){width="100%"}
+:::
+:::
+
 
 # Conditional Relative Survival {.center .middle background-color="#FCFDE5"}
 
@@ -373,12 +349,12 @@ In the case of thicker melanoma, women have higher increasing trend in T4 melano
 :::
 :::
 
-# Wrap-up {.center .middle .huge background-color="#642822"}
+# Summary {.center .middle .huge background-color="#642822"}
 
 ## Summary {.ai .dark background-image="Images/AI/Overview-Lake-Boat.jpg" background-position="right" background-size="auto 100%"}
 
-::: columns
-::: {.column width="50%" style="font-size: 85%;"}
+::: {.columns .grid style="grid-template-columns: 1fr 1fr; align-items: end;"}
+::: column
 ::: {.callout-note appearance="simple" icon="false"}
 -   Despite _stable melanoma mortality_ was seen in cancer reports in Norway for last few years, Norway _ranks second in mortality_ worldwide.
 :::
@@ -392,7 +368,7 @@ In the case of thicker melanoma, women have higher increasing trend in T4 melano
 :::
 :::
 
-::: {.column width="50%"}
+::: column
 :::
 :::
 
@@ -431,8 +407,8 @@ iwalk(imgs, function(img, name) {
 ```
 :::
 
-::: {style="text-align:center; width:100%; color:firebrick;"}
-Funded by: The Research Council of Norway.
+::: {#funding}
+**Funded by:** The Research Council of Norway.
 :::
 :::
 :::

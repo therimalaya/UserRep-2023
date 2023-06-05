@@ -212,6 +212,13 @@ section:not(.center) .center {
         }
       }
   }
+  #funding {
+    margin-top: 15px;
+    text-align: center; 
+    width: 100%; 
+    color: #616530; 
+    font-size: 80%;
+  }
 }
 
 /* Complete hide fragment */
@@ -306,6 +313,11 @@ section:not(.center) .center {
   /* Outlook slide */
   #outlook .columns .column:first-child {
     font-size: 85%;
+  }
+
+  /* Aside */
+  aside p {
+    font-size: 80%;
   }
 
 }

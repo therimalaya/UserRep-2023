@@ -362,10 +362,10 @@
 <h2>Outline</h2>
 <div class="column" style="width:50%;">
 <ul>
-<li><p><a href="#/section-1">Background</a></p></li>
-<li><p><a href="#/section-2">Data and Methods</a></p></li>
-<li><p><a href="#/section-3">Results</a></p></li>
-<li><p><a href="#/section-4">Outlook and Summary</a></p></li>
+<li><p><a href="#/background">Background</a></p></li>
+<li><p><a href="#/case-series">Case series</a></p></li>
+<li><p><a href="#/method-and-results">Methods and Results</a></p></li>
+<li><p><a href="#/summary">Summary</a></p></li>
 </ul>
 </div>
 <div class="column" style="width:50%;">
@@ -440,7 +440,7 @@
 ::: {.absolute .fragment .fade-right .fade-in-then-out data-id="box1" style="border: 2px solid #800000; width: 130px; height: 90px; margin: 10px; background: #80000044; border-radius: 10%;" top="18%" left="70%"}
 :::
 -->
-<img data-src="Images/T-Stages.svg" style="width:100.0%" class="r-stretch quarto-figure-center"><p class="caption">Source: <code>https://www.cancerresearchuk.org/about-cancer/melanoma/stages-types/tnm-staging</code></p></section></section>
+<img data-src="Images/T-Stages.svg" style="width:100.0%" class="r-stretch quarto-figure-center"><p class="caption">Source: <a href="https://www.cancerresearchuk.org/about-cancer/melanoma/stages-types/tnm-staging"><code>https://www.cancerresearchuk.org/about-cancer/melanoma/stages-types/tnm-staging</code></a></p></section></section>
 <section>
 <section id="case-series" class="title-slide slide level1 center middle huge" data-background-color="#155F83FF">
 <h1>Case series</h1>
@@ -472,18 +472,16 @@
 </div>
 </div>
 </section></section>
-<section id="results-and-methods" class="title-slide slide level1 center middle huge" data-background-color="#3E3E23">
-<h1>Results and Methods</h1>
-<div class="cell">
+<section id="methods-and-results" class="title-slide slide level1 center middle huge" data-background-color="#3E3E23">
+<h1>Methods and Results</h1>
 
-</div>
 </section>
 
 <section>
 <section id="relative-survival" class="title-slide slide level1 center middle" data-background-color="#FCFDE5">
 <h1>Relative Survival</h1>
-<p>A way of <em>comparing the survival</em> of people who have melanoma with those who don’t, over a certain period of time.</p>
-</section>
+<p><em>Relative survival</em><sup>1</sup> <strong>compares the survival of people with melanoma with those who don’t</strong> over a certain period of time.</p>
+<aside><ol class="aside-footnotes"><li id="fn1"><p>Cumulative mortality (cumulative incidence of death) refers to the event of death due to melanoma.</p></li></ol></aside></section>
 <section id="relative-survival-1" class="slide level2 smaller middle">
 <h2>Relative survival</h2>
 <div class="columns grid" style="grid-template-columns: 1fr 2fr; align-items: end;">
@@ -548,9 +546,9 @@
 </section></section>
 <section>
 <section id="cumulative-mortality" class="title-slide slide level1 center middle" data-background-color="#FCFDE5">
-<h1>Cumulative Mortality</h1>
-<p>The proportion (percentage) of a population died because of melanoma over a specified time period.</p>
-</section>
+<h1>Cumulative mortality</h1>
+<p>The cumulative mortality <sup>1</sup> up to a given time is the probability of an individual dying by that time<sup>2</sup>.</p>
+<aside><ol class="aside-footnotes"><li id="fn2"><p>Cumulative mortality (cumulative incidence of death) refers to the event of death due to melanoma.</p></li><li id="fn3"><p>Total cases can be divided into proportion of alive, death due to other causes and death due to melanoma.</p></li></ol></aside></section>
 <section id="cumulative-mortality-1" class="slide level2 smaller middle">
 <h2>Cumulative Mortality</h2>
 <div class="columns grid" style="grid-template-columns: 1fr 2fr; align-items: end;">
@@ -559,14 +557,14 @@
 <div class="callout callout-note no-icon callout-style-simple">
 <div class="callout-body">
 <div class="callout-content">
-<p>In melanoma patients with T1 tumour, the proportion of dying from melanoma is similar to dying from other cause.</p>
+<p>The probability of other cause of death does not change drastically as the probability of melanoma death between T categories.</p>
 </div>
 </div>
 </div>
 <div class="callout callout-note no-icon callout-style-simple">
 <div class="callout-body">
 <div class="callout-content">
-<p>The difference in the proportion of melanoma patients dying from melanoma compared to dying from other disease grows as tumour thickness increases.</p>
+<p>The proportion of melanoma deaths grows as tumour thickness increases.</p>
 </div>
 </div>
 </div>
@@ -574,6 +572,13 @@
 <div class="callout-body">
 <div class="callout-content">
 <p>Men have poor prognosis compared to women (high cumulative incidence).</p>
+</div>
+</div>
+</div>
+<div class="callout callout-tip no-icon callout-style-simple">
+<div class="callout-body">
+<div class="callout-content">
+<p>Younger population has more thinner and older has more thicker cases. In longer follow-up, we see an increasing probability in both melanoma an other cause of death.</p>
 </div>
 </div>
 </div>
@@ -603,6 +608,41 @@
 </div>
 </div><div class="column">
 <p><img data-src="plots/cuminc-treatment-effect.svg" style="width:100.0%"></p>
+</div>
+</div>
+</section>
+<section id="is-this-the-effect-of-treatment-1" class="slide level2 smaller middle">
+<h2>Is this the effect of treatment?</h2>
+<div class="columns grid" style="grid-template-columns: 1fr 2fr; align-items: end;">
+<div class="column">
+<p><strong>Melanoma with distant metastasis</strong></p>
+<div class="callout callout-tip no-icon callout-style-simple">
+<div class="callout-body">
+<div class="callout-content">
+<p>No interaction between sex and period of diagnosis</p>
+</div>
+</div>
+</div>
+<div class="callout callout-note no-icon callout-style-simple">
+<div class="callout-body">
+<div class="callout-content">
+<p>Based on model without interaction:</p>
+<ul>
+<li>Male have higher mortality than female</li>
+<li>Period 2014-2016 has lower mortality than the period 2011-2013</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="callout callout-note no-icon callout-style-simple">
+<div class="callout-body">
+<div class="callout-content">
+<p>Around year 2014, new treatment immunotherapy was introduced in stage IV melanoma.</p>
+</div>
+</div>
+</div>
+</div><div class="column">
+<p><img data-src="plots/cox-model-treatment.svg" style="width:100.0%"></p>
 </div>
 </div>
 </section></section>
@@ -673,14 +713,14 @@
 </div>
 </section></section>
 <section>
-<section id="wrap-up" class="title-slide slide level1 center middle huge" data-background-color="#642822">
-<h1>Wrap-up</h1>
+<section id="summary" class="title-slide slide level1 center middle huge" data-background-color="#642822">
+<h1>Summary</h1>
 
 </section>
-<section id="summary" class="slide level2 ai dark" data-background-image="Images/AI/Overview-Lake-Boat.jpg" data-background-position="right" data-background-size="auto 100%">
+<section id="summary-1" class="slide level2 ai dark" data-background-image="Images/AI/Overview-Lake-Boat.jpg" data-background-position="right" data-background-size="auto 100%">
 <h2>Summary</h2>
-<div class="columns">
-<div class="column" style="font-size: 85%;">
+<div class="columns grid" style="grid-template-columns: 1fr 1fr; align-items: end;">
+<div class="column">
 <div class="callout callout-note no-icon callout-style-simple">
 <div class="callout-body">
 <div class="callout-content">
@@ -709,7 +749,7 @@
 </div>
 </div>
 </div>
-</div><div class="column" style="width:50%;">
+</div><div class="column">
 
 </div>
 </div>
@@ -794,8 +834,8 @@ Marit B Veierød
 </p>
 </div>
 </div>
-<div style="text-align:center; width:100%; color:firebrick;">
-<p>Funded by: The Research Council of Norway.</p>
+<div id="funding">
+<p><strong>Funded by:</strong> The Research Council of Norway.</p>
 </div>
 </div>
 </div>
@@ -836,6 +876,7 @@ Shack, Lorraine, Heather Bryant, Gina Lockwood, and Larry F. Ellison. 2013. <spa
 
 </div>
 </section></section>
+
     </div>
   </div>
 
@@ -990,7 +1031,7 @@ Shack, Lorraine, Heather Bryant, Gina Lockwood, and Larry F. Ellison. 2013. <spa
         hideCursorTime: 5000,
 
         // Opens links in an iframe preview overlay
-        previewLinks: false,
+        previewLinks: true,
 
         // Transition style (none/fade/slide/convex/concave/zoom)
         transition: 'none',
